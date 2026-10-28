@@ -4,8 +4,9 @@ require('dotenv').config(); // Charge les variables depuis le .env
 const pool = mariadb.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  password: process.env.DB_PASSWORD, // 👈 Correction ici (DB_PASSWORD au lieu de DB_PASS)
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT, // 👈 (Optionnel mais recommandé d'ajouter le port aussi)
   connectionLimit: 5
 });
 
@@ -16,6 +17,7 @@ async function getConnection() {
     conn = await pool.getConnection();
     return conn;
   } catch (err) {
+    console.error("ERREUR SQL BRUTE :", err); // 👈 Utile pour afficher la vraie erreur si ça persiste
     throw err;
   }
 }
